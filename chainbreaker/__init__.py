@@ -410,10 +410,10 @@ class Chainbreaker(object):
     def dump_keychain_password_hash(self):
         cyphertext = hexlify(self.kc_buffer[self.base_addr
                                             + self.dbblob.StartCryptoBlob:self.base_addr
-                                            + self.dbblob.TotalLength])
+                                            + self.dbblob.TotalLength]).decode('ascii')
 
-        iv = hexlify(self.dbblob.IV)
-        salt = hexlify(self.dbblob.Salt)
+        iv = hexlify(self.dbblob.IV).decode('ascii')
+        salt = hexlify(self.dbblob.Salt).decode('ascii')
 
         return self.KeychainPasswordHash(salt, iv, cyphertext)
 
