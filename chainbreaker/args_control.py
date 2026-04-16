@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 
 def setup_argsparse():
-    arguments = argparse.ArgumentParser(description='Dump items stored in an OSX Keychain')
+    arguments = argparse.ArgumentParser(prog='chainbreaker', description='Dump items stored in an OSX Keychain')
 
     # General Arguments
     arguments.add_argument('keychain', help='Location of the keychain file to parse')
