@@ -11,6 +11,7 @@ def setup_argsparse():
 
     # General Arguments
     arguments.add_argument('keychain', help='Location of the keychain file to parse')
+    arguments.add_argument('--search', '-S', help='Filter entries by substring match (searches PrintName, Service, Account, Server)')
 
     # Available actions
     dump_actions = arguments.add_argument_group('Dump Actions')
@@ -105,6 +106,7 @@ def setup_argsparse():
         password=None,
         key=None,
         unlock_file=None,
+        search=None,
     )
 
     return arguments.parse_args()

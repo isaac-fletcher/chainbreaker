@@ -29,6 +29,20 @@ def summary(args, keychain_md5, keychain_sha256):
     return summary_output
 
 
+def _matches_filter(entry, service_filter):
+    if not service_filter:
+        return True
+    sf = service_filter.lower()
+    for attr in ["PrintName", "Service", "Account", "Server"]:
+        val = getattr(entry, attr, None)
+        if val:
+            if isinstance(val, bytes):
+                val = val.decode("utf-8", errors="ignore")
+            if sf in str(val).lower():
+                return True
+    return False
+
+
 def resolve(args, keychain):
     output = []
     if args.dump_keychain_password_hash or args.export_keychain_password_hash:
@@ -95,6 +109,11 @@ def resolve(args, keychain):
                 'write_to_disk': args.export_x509_certificates,
                 'write_directory': os.path.join(args.output, 'certificates'),
             })
+    service_filter = getattr(args, "search", None)
+    if service_filter:
+        for item in output:
+            item["records"] = [r for r in item["records"] if _matches_filter(r, service_filter)]
+
     return output
 
 
